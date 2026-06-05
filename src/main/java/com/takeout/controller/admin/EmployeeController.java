@@ -52,4 +52,16 @@ public class EmployeeController {
 
         return Result.success(employeeLoginVO);
     }
+
+    /**
+     * 新增员工
+     * @param employeeDTO 员工数据传输对象
+     * @return 统一返回结果
+     */
+    @PostMapping
+    public Result<String> save(@RequestBody com.takeout.dto.EmployeeDTO employeeDTO) {
+        log.info("新增员工：{}", employeeDTO);
+        employeeService.save(employeeDTO);
+        return Result.success();
+    }
 }

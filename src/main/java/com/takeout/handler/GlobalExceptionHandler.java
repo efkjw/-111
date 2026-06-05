@@ -17,6 +17,19 @@ public class GlobalExceptionHandler {
         return Result.error(exception.getMessage());
     }
 
+    @ExceptionHandler(java.sql.SQLIntegrityConstraintViolationException.class)
+    public Result<String> handleSQLIntegrityConstraintViolationException(java.sql.SQLIntegrityConstraintViolationException exception) {
+        // 报错信息示例: Duplicate entry 'admin' for key 'employee.idx_username'
+        String message = exception.getMessage();
+        log.error("数据库约束异常：{}", message);
+        if (message.contains("Duplicate entry")) {
+            String[] split = message.split(" ");
+            String username = split[2]; // 获取冲突的用户名
+            return Result.error("用户名 " + username + " 已存在");
+        }
+        return Result.error(MessageConstant.UNKNOWN_ERROR);
+    }
+
     @ExceptionHandler(Exception.class)
     public Result<String> handleException(Exception exception) {
         log.error("系统异常：", exception);

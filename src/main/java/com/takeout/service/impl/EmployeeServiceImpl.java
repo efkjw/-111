@@ -16,6 +16,12 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 
+import com.takeout.dto.EmployeeDTO;
+import com.takeout.constant.PasswordConstant;
+import com.takeout.context.BaseContext;
+import org.springframework.beans.BeanUtils;
+import java.time.LocalDateTime;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -46,5 +52,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return employee;
+    }
+
+    /**
+     * 新增员工
+     * @param employeeDTO 员工数据传输对象
+     */
+    @Override
+    public void save(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        // 对象属性拷贝
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        // 设置账号状态，默认 1 表示正常（StatusConstant.ENABLE）
+        employee.setStatus(StatusConstant.ENABLE);
+
+        // 设置密码，默认密码 123456，并进行 md5 加密
+        employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes(StandardCharsets.UTF_8)));
+
+        // 设置创建时间、修改时间
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+
+        // 设置创建人、修改人（从 ThreadLocal 中获取）
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.insert(employee);
     }
 }
