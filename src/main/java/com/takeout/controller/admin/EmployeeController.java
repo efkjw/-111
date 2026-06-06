@@ -11,15 +11,12 @@ import com.takeout.service.EmployeeService;
 import com.takeout.utils.JwtUtil;
 import com.takeout.vo.EmployeeLoginVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
-import  org.springframework.web.bind.annotation.GetMapping;
+
 @Slf4j
 @RestController
 @RequestMapping("/admin/employee")
@@ -31,9 +28,17 @@ public class EmployeeController {
     @Resource
     private JwtProperties jwtProperties;
 
+    @PostMapping("/status/{status}")
+    public Result<String> startOrStop(@PathVariable Integer status,@RequestParam long id){
+
+        log.info("启用禁用员工id",status,id);
+
+        employeeService.startOrstop(status,id);
 
 
 
+        return Result.success();
+    }
     @PostMapping("/login")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("员工登录：{}", employeeLoginDTO.getUsername());
@@ -81,4 +86,6 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+
 }
+

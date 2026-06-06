@@ -5,6 +5,7 @@ import com.takeout.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface EmployeeMapper {
@@ -36,5 +37,27 @@ public interface EmployeeMapper {
             "order by create_time desc" +
             "</script>")
     Page<Employee> pageQuery(String name);
+
+
+    /**
+     * 根据主键动态修改属性
+     * @param employee 员工实体
+     */
+    @Update("<script>" +
+            "update employee " +
+            "<set>" +
+            "<if test=\"name != null\"> name = #{name}, </if>" +
+            "<if test=\"username != null\"> username = #{username}, </if>" +
+            "<if test=\"phone != null\"> phone = #{phone}, </if>" +
+            "<if test=\"sex != null\"> sex = #{sex}, </if>" +
+            "<if test=\"idNumber != null\"> id_number = #{idNumber}, </if>" +
+            "<if test=\"status != null\"> status = #{status}, </if>" +
+            "<if test=\"updateTime != null\"> update_time = #{updateTime}, </if>" +
+            "<if test=\"updateUser != null\"> update_user = #{updateUser}, </if>" +
+            "</set>" +
+            "where id = #{id}" +
+            "</script>")
+    // TODO: 请补充方法签名
+    void update(Employee employee);
 
 }

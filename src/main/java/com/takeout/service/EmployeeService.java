@@ -23,4 +23,7 @@ public interface EmployeeService {
      * @return 分页结果封装对象
      */
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+
+    void startOrstop(Integer status,long id);
 }
