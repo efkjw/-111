@@ -67,6 +67,6 @@ public interface EmployeeMapper {
      * @return 员工实体
      */
     @Select("select *from employee where id =#{id}")
-    Employee getById(long id);
+    Employee getById(long id);//
 
 }
