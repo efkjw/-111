@@ -1,6 +1,7 @@
 package com.takeout.controller.admin;
 
 import com.takeout.constant.JwtClaimsConstant;
+import com.takeout.dto.EmployeeDTO;
 import com.takeout.dto.EmployeeLoginDTO;
 import com.takeout.dto.EmployeePageQueryDTO;
 import com.takeout.entity.Employee;
@@ -34,7 +35,6 @@ public class EmployeeController {
         log.info("启用禁用员工id",status,id);
 
         employeeService.startOrstop(status,id);
-
 
 
         return Result.success();
@@ -85,7 +85,32 @@ public class EmployeeController {
         PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
     }
+    /**
+     * 根据ID查询员工信息
+     * @param id 员工ID
+     * @return 统一返回结果 (携带 Employee 实体)
+     */
 
+    @GetMapping("/{id}")
+    public Result<Employee> getById(@PathVariable Long id) {
+        log.info("根据ID查询员工信息，id={}", id);
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO 员工信息对象
+     * @return 统一返回结果
+     */
+    @PutMapping
+    public Result<String> update(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("编辑员工信息：{}", employeeDTO);
+        // TODO: 调用 Service 修改员工信息的方法
+        log.info("编辑员工信息，{}",employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 
 }
 

@@ -31,8 +31,9 @@ public interface EmployeeMapper {
     @Select("<script>" +
             "select * from employee " +
             "<where>" +
-            // TODO: 请补充针对 name 的动态 SQL 条件判断。
-            // 提示：如果 name 不为 null 且不为空字符串，拼接：and name like concat('%', #{name}, '%')
+            "<if test='name != null and name != \"\"'>" +
+            "and name like concat('%',#{name},'%')" +
+            "</if>" +
             "</where>" +
             "order by create_time desc" +
             "</script>")
@@ -59,5 +60,13 @@ public interface EmployeeMapper {
             "</script>")
     // TODO: 请补充方法签名
     void update(Employee employee);
+
+    /**
+     * 根据 ID 查询员工信息
+     * @param id 员工ID
+     * @return 员工实体
+     */
+    @Select("select *from employee where id =#{id}")
+    Employee getById(long id);
 
 }
