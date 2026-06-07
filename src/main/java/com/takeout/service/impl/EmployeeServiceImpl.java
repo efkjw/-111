@@ -13,6 +13,7 @@ import com.takeout.exception.PasswordErrorException;
 import com.takeout.mapper.EmployeeMapper;
 import com.takeout.result.PageResult;
 import com.takeout.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
@@ -25,7 +26,7 @@ import com.takeout.constant.PasswordConstant;
 import com.takeout.context.BaseContext;
 import org.springframework.beans.BeanUtils;
 import java.time.LocalDateTime;
-
+@Slf4j
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
