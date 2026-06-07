@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class CategoryDTo implements Serializable {
+public class CategoryDTO implements Serializable {
     private  long id;
 
     private  Integer type;

@@ -27,6 +27,7 @@ public class Category  implements Serializable {
     private  Long createUser;
 
     private  Long updateUser;
+    private Integer type;
 
 
 }
