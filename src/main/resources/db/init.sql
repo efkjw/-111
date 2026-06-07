@@ -27,3 +27,43 @@ insert into employee
 (name, username, password, phone, sex, id_number, status, create_time, update_time, create_user, update_user)
 values
 ('管理员', 'admin', md5('123456'), '13800138000', '1', '110101199001010011', 1, now(), now(), 1, 1);
+
+
+CREATE TABLE IF NOT EXISTS `category` (
+                                          `id`          BIGINT        NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                          `type`        INT           COMMENT '类型：1菜品分类 2套餐分类',
+                                          `name`        VARCHAR(32)   NOT NULL UNIQUE COMMENT '分类名称',
+                                          `sort`        INT           NOT NULL DEFAULT 0 COMMENT '顺序',
+                                          `status`      INT           NOT NULL DEFAULT 1 COMMENT '状态 0:禁用 1:启用',
+                                          `create_time` DATETIME      COMMENT '创建时间',
+                                          `update_time` DATETIME      COMMENT '修改时间',
+                                          `create_user` BIGINT        COMMENT '创建人',
+                                          `update_user` BIGINT        COMMENT '修改人',
+                                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜品及套餐分类';
+
+
+-- 菜品表
+CREATE TABLE IF NOT EXISTS `dish` (
+                                      `id`          BIGINT        NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                      `name`        VARCHAR(32)   NOT NULL UNIQUE COMMENT '菜品名称',
+                                      `category_id` BIGINT        NOT NULL COMMENT '菜品分类id',
+                                      `price`       DECIMAL(10,2) COMMENT '菜品价格',
+                                      `image`       VARCHAR(255)  COMMENT '图片路径',
+                                      `description` VARCHAR(255)  COMMENT '描述信息',
+                                      `status`      INT           NOT NULL DEFAULT 1 COMMENT '0 停售 1 起售',
+                                      `create_time` DATETIME      COMMENT '创建时间',
+                                      `update_time` DATETIME      COMMENT '修改时间',
+                                      `create_user` BIGINT        COMMENT '创建人',
+                                      `update_user` BIGINT        COMMENT '修改人',
+                                      PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜品';
+
+-- 菜品口味表
+CREATE TABLE IF NOT EXISTS `dish_flavor` (
+                                             `id`      BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                             `dish_id` BIGINT       NOT NULL COMMENT '菜品id',
+                                             `name`    VARCHAR(32)  NOT NULL COMMENT '口味名称',
+                                             `value`   VARCHAR(255) COMMENT '口味数据列表（JSON）',
+                                             PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜品口味';
