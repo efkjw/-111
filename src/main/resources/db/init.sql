@@ -67,3 +67,31 @@ CREATE TABLE IF NOT EXISTS `dish_flavor` (
                                              `value`   VARCHAR(255) COMMENT '口味数据列表（JSON）',
                                              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜品口味';
+
+
+-- 套餐表
+CREATE TABLE IF NOT EXISTS `setmeal` (
+                                         `id`          BIGINT        NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                         `category_id` BIGINT        NOT NULL COMMENT '菜品分类id',
+                                         `name`        VARCHAR(32)   NOT NULL UNIQUE COMMENT '套餐名称',
+                                         `price`       DECIMAL(10,2) NOT NULL COMMENT '套餐价格',
+                                         `status`      INT           NOT NULL DEFAULT 1 COMMENT '0停售 1起售',
+                                         `description` VARCHAR(255)  COMMENT '描述信息',
+                                         `image`       VARCHAR(255)  COMMENT '图片路径',
+                                         `create_time` DATETIME      COMMENT '创建时间',
+                                         `update_time` DATETIME      COMMENT '修改时间',
+                                         `create_user` BIGINT        COMMENT '创建人',
+                                         `update_user` BIGINT        COMMENT '修改人',
+                                         PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='套餐';
+
+-- 套餐菜品关联表（套餐里包含哪些菜品，各几份）
+CREATE TABLE IF NOT EXISTS `setmeal_dish` (
+                                              `id`         BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                              `setmeal_id` BIGINT       COMMENT '套餐id',
+                                              `dish_id`    BIGINT       COMMENT '菜品id',
+                                              `name`       VARCHAR(32)  COMMENT '菜品名称（冗余）',
+                                              `price`      DECIMAL(10,2) COMMENT '菜品价格（冗余）',
+                                              `copies`     INT          COMMENT '菜品份数',
+                                              PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='套餐菜品关联';

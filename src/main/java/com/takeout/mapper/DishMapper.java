@@ -1,19 +1,22 @@
 package com.takeout.mapper;
 
 import com.github.pagehelper.Page;
+import com.takeout.dto.CategoryDTO;
+import com.takeout.dto.DishDTO;
+import com.takeout.dto.DishPageQuery;
+import com.takeout.entity.Category;
 import com.takeout.entity.Dish;
 import com.takeout.vo.DishVO;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
-
+@Mapper
 public interface DishMapper {
     //新增菜品
     void insert(Dish dish);
 
-    //分页查询
-    Page<DishVO> pageQuery(String name,Long categoryId,Integer status);
 
 
     // 根据id查询菜品
@@ -27,4 +30,7 @@ public interface DishMapper {
     // 根据分类id查询菜品列表
     @Select("select * from dish where category_id = #{categoryId} and status = 1")
     List<Dish> listByCategoryId(Long categoryId);
+
+
+    Page<DishVO> pageQuery(DishPageQuery dishPageQuery);
 }
